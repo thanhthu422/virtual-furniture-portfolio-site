@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
-import "@/styles/globals.css";
-import "@/styles/index.css";
+import "./globals.css";
+import { Navigation } from "@/components/Navigation";
+import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Virtual Furniture Portfolio Website",
   description: "Curating beautiful virtual furniture for your design inspiration",
 };
+
 
 export default function RootLayout({
   children,
@@ -14,7 +16,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <Navigation />
+        <main className="min-h-screen bg-[#FAF8F5]">
+          {children}
+        </main>
+        <Footer />
+      </body>
     </html>
   );
 }

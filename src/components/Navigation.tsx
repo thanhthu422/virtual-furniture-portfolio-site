@@ -17,13 +17,13 @@ export function Navigation() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <a href="#home" className="text-[#6B5E4C] hover:text-[#8B7355] transition-colors">
+            <a href="/" className="text-[#6B5E4C] hover:text-[#8B7355] transition-colors">
               Home
             </a>
             <a href="#gallery" className="text-[#6B5E4C] hover:text-[#8B7355] transition-colors">
               Gallery
             </a>
-            <a href="#about" className="text-[#6B5E4C] hover:text-[#8B7355] transition-colors">
+            <a href="/about" className="text-[#6B5E4C] hover:text-[#8B7355] transition-colors">
               About
             </a>
             <a href="#contact" className="text-[#6B5E4C] hover:text-[#8B7355] transition-colors">
@@ -48,7 +48,7 @@ export function Navigation() {
         <div className="md:hidden bg-[#FAF8F5] border-t border-[#E8E1D8]">
           <div className="px-4 pt-2 pb-3 space-y-1">
             <a
-              href="#home"
+              href="/"
               className="block px-3 py-2 text-[#6B5E4C] hover:text-[#8B7355] transition-colors"
               onClick={() => setMobileMenuOpen(false)}
             >
