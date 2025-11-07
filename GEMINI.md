@@ -35,20 +35,32 @@ TECH STACK:
 - Lucide React icons
 
 PROJECT STRUCTURE:
-app/
-├── layout.tsx (root layout with metadata)
-└── page.tsx (home page)
+avirtual-furniture-portfolio-site/
 
-src/
-├── components/
-│   ├── Navigation.tsx (client component - mobile menu state)
-│   ├── Hero.tsx (server component)
-│   ├── ProductGallery.tsx (client component - filtering state)
-│   ├── ProductCard.tsx (server component)
-│   └── ProductModal.tsx (uses Radix Dialog)
-├── styles/
-│   └── globals.css (CSS variables)
-└── index.css (Tailwind imports)
+├── src/
+|   ├── app/
+│   |    ├── about
+|   │    |   └── page.tsx
+│   |    ├── layout.tsx           # Root layout (metadata, global styles)
+│   |    └── page.tsx             # Home page (main content + footer)
+│   │    └── globals.css      # CSS custom properties
+│   ├── components/
+│   │   ├── ui/              # Radix UI primitives (shadcn/ui)
+│   │   ├── Navigation.tsx   # CLIENT: Mobile menu state
+│   │   ├── Hero.tsx         # SERVER: Static hero section
+│   │   ├── ProductGallery.tsx  # CLIENT: Filtering + modal state
+│   │   ├── ProductCard.tsx  # SERVER: Product display
+│   │   └── ProductModal.tsx # Radix Dialog component
+│   │   └── Footer.tsx       # Footer component
+│   │   └── AboutUs.tsx      # AboutUs component
+├── public/                  # Static assets (if any)
+├── next.config.ts           # Next.js configuration
+├── tailwind.config.ts       # Tailwind configuration
+├── tsconfig.json            # TypeScript configuration
+├── package.json             # Dependencies and scripts
+├── .gitignore               # Git ignore rules
+├── README.md                # Project documentation
+└── prompt.md                # This file (AI generation guide)
 
 DESIGN SYSTEM:
 - Color Palette: Warm whites (#FAF8F5), cream (#F5F1EA), charcoal (#6B5E4C), taupe (#8B7355)
@@ -331,18 +343,18 @@ Generate a tsconfig.json for Next.js 15 with:
 
 ```
 Generate a tailwind.config.ts for Tailwind CSS v4 with:
-- Content paths for app/, src/, pages/, components/
+- Content paths for src/app/, src/, src/components/
 - No custom theme extensions needed (using CSS variables)
 ```
 
 ### 3.3 App Router Structure
 
-**app/layout.tsx - Prompt for AI:**
+**src/app/layout.tsx - Prompt for AI:**
 
 ```
-Generate a Next.js 15 app/layout.tsx file with:
+Generate a Next.js 15 src/app/layout.tsx file with:
 - Metadata export (title: "Virtual Furniture Portfolio Website", description)
-- Import global CSS from @/styles/globals.css and @/index.css
+- Import global CSS from ./globals.css
 - Root HTML structure with lang="en"
 - Clean, minimal layout
 - TypeScript with proper types
@@ -352,8 +364,7 @@ Generate a Next.js 15 app/layout.tsx file with:
 
 ```typescript
 import type { Metadata } from "next";
-import "@/styles/globals.css";
-import "@/index.css";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Virtual Furniture Portfolio Website",
@@ -367,7 +378,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <Navigation />
+        <main className="min-h-screen bg-[#FAF8F5]">
+          {children}
+        </main>
+        <Footer />
+      </body>
     </html>
   );
 }
@@ -376,7 +393,7 @@ export default function RootLayout({
 **app/page.tsx - Prompt for AI:**
 
 ```
-Generate a Next.js 15 app/page.tsx (home page) with:
+Generate a Next.js 15 src/app/page.tsx (home page) with:
 - Import Navigation, Hero, ProductGallery components from @/components/
 - Main container with min-h-screen and warm background color (#FAF8F5)
 - Footer section with:
@@ -468,20 +485,11 @@ Generate src/components/ProductModal.tsx using Radix UI Dialog with:
 
 ### 3.5 Styling with Tailwind CSS
 
-**src/index.css - Prompt for AI:**
-
+**src/app/globals.css - Prompt for AI:**
 ```
-Generate src/index.css for Tailwind CSS v4 with:
+Generate src/app/globals.css with CSS custom properties for:
 - @import "tailwindcss" directive
 - Tailwind base, components, utilities layers
-- CSS custom properties in :root for theme colors
-- Base styles for common elements
-```
-
-**src/styles/globals.css - Prompt for AI:**
-
-```
-Generate src/styles/globals.css with CSS custom properties for:
 - Color palette (warm whites, creams, charcoal, taupe)
 - Typography variables
 - Spacing scale
@@ -566,19 +574,9 @@ h1, h2, h3, h4, h5, h6 {
 /* ... more base styles */
 ```
 
-### 3.2 products.json Structure
+### 3.2 products data
 
-**Prompt for AI:**
-
-```
-Create a JSON data structure for storing virtual furniture products. Each 
-product needs: id (string), name (string), description (30-40 words), 
-collection (string: living-room/bedroom/dining/office), materials (string), 
-imageUrl (string path), inspiration (optional string). Generate 10 sample 
-products with realistic data.
-```
-
-**Expected Output:**
+**Use List Typescript Product**
 
 ```ts
 {
@@ -655,58 +653,22 @@ products with realistic data.
   },
 ```
 
-### 3.3 JavaScript - Load and Display Products
-
-**Prompt for AI:**
-
+**About us page content:***
 ```
-Write vanilla JavaScript (ES6+) to: 1) Fetch products from 'data/products.json', 
-2) Display them in a grid with id="productGallery", 3) Each product card has 
-image, name, and onclick to open modal, 4) Handle errors gracefully. Use 
-async/await and template literals.
+Mission: bringing peace of mind to your home through thoughtful crafts and carefully sourced materials
+Story: Our company was born from the search for 'home.' When our founder couldn't find market products that felt right—discovering only poor designs and unsustainable materials—he decided to create his own.
+
+
+He began handcrafting furniture and decor for his own space, pieces with purpose and quality. His family saw the passion in his work and encouraged him to share it. From those humble beginnings in a small shop, a personal hobby has grown into a business that shares that same feeling of authentic, sustainable living with a wider public.
+How we build: 
+from carefully selected materials (climate awareness, locally sourced, sustainable)
+how we prepare and process our materials: efficiency through good planning and applying technologies
+how we build: efficiency through good planning, technologies
+and present our final products: keep home in mind, prevent wastefulness
 ```
+** About Us page: `How we build` just use grid **
 
-**Expected Output:**
-
-```javascript
-// Load products from JSON
-let allProducts = [];
-
-async function loadProducts() {
-  try {
-    const response = await fetch('data/products.json');
-    if (!response.ok) throw new Error('Failed to load products');
-    const data = await response.json();
-    allProducts = data.products;
-    displayProducts(allProducts);
-  } catch (error) {
-    console.error('Error loading products:', error);
-    document.getElementById('productGallery').innerHTML = 
-      '<p>Unable to load products. Please try again later.</p>';
-  }
-}
-
-// Display products in grid
-function displayProducts(products) {
-  const gallery = document.getElementById('productGallery');
-  
-  gallery.innerHTML = products.map(product => `
-    <div class="product-card" onclick="openProductModal('${product.id}')">
-      <div class="product-image">
-        <img src="${product.imageUrl}" 
-             alt="${product.name}"
-             loading="lazy">
-      </div>
-      <h4 class="product-name">${product.name}</h4>
-    </div>
-  `).join('');
-}
-
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', loadProducts);
-```
-
-### 3.4 JavaScript - Filter by Collection
+### 3.4 Typescript - Filter by Collection
 
 **Prompt for AI:**
 
@@ -717,113 +679,26 @@ displayProducts(), and updates active state on filter buttons. Include
 event listener setup for filter buttons with data-collection attribute.
 ```
 
-**Expected Output:**
-
-```javascript
-// Filter products by collection
-function filterProducts(collection) {
-  const filtered = collection === 'all' 
-    ? allProducts 
-    : allProducts.filter(p => p.collection === collection);
-  
-  displayProducts(filtered);
-  updateActiveFilter(collection);
-}
-
-// Update active filter button state
-function updateActiveFilter(collection) {
-  document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.classList.remove('active');
-    if (btn.dataset.collection === collection) {
-      btn.classList.add('active');
-    }
-  });
-}
-
-// Setup filter button listeners
-document.querySelectorAll('.filter-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    filterProducts(btn.dataset.collection);
-  });
-});
-```
-
-### 3.5 JavaScript - Product Modal/Pop-up
+### 3.5 Typescript - Product Modal/Pop-up
 
 **Prompt for AI:**
 
-```
-Write JavaScript to: 1) Open modal when product card clicked, 2) Populate 
+```Write JavaScript to: 1) Open modal when product card clicked, 2) Populate
 modal with product data (image, name, description, collection, materials), 
 3) Close modal on X button click or outside click, 4) Close on ESC key. 
 Modal has id="productModal", uses data attributes for content elements.
-```
-
-**Expected Output:**
-
-```javascript
-// Open product modal
-function openProductModal(productId) {
-  const product = allProducts.find(p => p.id === productId);
-  if (!product) return;
-  
-  // Populate modal with product data
-  document.getElementById('modalImage').src = product.imageUrl;
-  document.getElementById('modalImage').alt = product.name;
-  document.getElementById('modalName').textContent = product.name;
-  document.getElementById('modalDescription').textContent = product.description;
-  document.getElementById('modalCollection').textContent = 
-    formatCollection(product.collection);
-  document.getElementById('modalMaterials').textContent = product.materials;
-  
-  // Show modal
-  const modal = document.getElementById('productModal');
-  modal.classList.add('active');
-  document.body.style.overflow = 'hidden'; // Prevent background scroll
-}
-
-// Close modal
-function closeProductModal() {
-  const modal = document.getElementById('productModal');
-  modal.classList.remove('active');
-  document.body.style.overflow = ''; // Restore scroll
-}
-
-// Close on outside click
-document.getElementById('productModal').addEventListener('click', (e) => {
-  if (e.target.id === 'productModal') {
-    closeProductModal();
-  }
-});
-
-// Close on ESC key
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    closeProductModal();
-  }
-});
-
-// Helper function
-function formatCollection(collection) {
-  return collection.split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-}
 ```
 
 ### 3.6 Complete HTML Structure
 
 **Prompt for AI:**
 
-```
-Generate complete HTML5 structure for a furniture portfolio website with:
+```Generate complete HTML5 structure for a furniture portfolio website with:
 1) Header with logo and nav links (Home, Collections)
 2) Hero section with background image, h1 headline, subheading, CTA button
 3) Product gallery section with filter buttons and product grid container
 4) Modal overlay for product details with close button, image, and info
 5) Simple footer with copyright
-Use semantic HTML, include meta tags, link to external CSS/JS files.
-Assume CSS file is 'css/styles.css' and JS is 'js/main.js'.
 ```
 
 ---
@@ -919,63 +794,13 @@ npm run build
 netlify deploy --prod
 ```
 
-**Self-Hosted (VPS/AWS/DigitalOcean):**
-
-```bash
-# Build the project
-npm run build
-
-# Start production server
-npm run start
-# Runs on port 3000 by default
-
-# Use PM2 for process management
-npm install -g pm2
-pm2 start npm --name "furniture-site" -- start
-pm2 save
-pm2 startup
-```
-
-**Docker:**
-
-```dockerfile
-# Dockerfile
-FROM node:18-alpine AS base
-
-# Install dependencies
-FROM base AS deps
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci
-
-# Build
-FROM base AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
-COPY . .
-RUN npm run build
-
-# Production
-FROM base AS runner
-WORKDIR /app
-ENV NODE_ENV production
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
-
-EXPOSE 3000
-CMD ["node", "server.js"]
-```
-
----
-
 ## ✅ SECTION 6: IMPLEMENTATION CHECKLIST (Next.js)
 
 ### Phase 1: Project Setup
 
 - [ ] Initialize Next.js 15 project with TypeScript and Tailwind CSS
 - [ ] Install dependencies (Radix UI, Lucide icons, etc.)
-- [ ] Create project structure (app/, src/components/, src/styles/)
+- [ ] Create project structure (src/app/, src/components/)
 - [ ] Configure next.config.ts for image optimization
 - [ ] Set up tsconfig.json with path aliases
 - [ ] Configure tailwind.config.ts
@@ -993,19 +818,20 @@ CMD ["node", "server.js"]
 
 ### Phase 3: Core Components Development
 
-- [ ] Create app/layout.tsx with metadata and global styles
-- [ ] Create app/page.tsx with main layout and footer
+- [ ] Create src/app/layout.tsx with metadata and global styles
+- [ ] Create src/app/page.tsx with main layout and footer
+- [ ] Create `src/app/about/page.tsx` with mission and story content
 - [ ] Build Navigation.tsx (client component with mobile menu)
 - [ ] Build Hero.tsx (server component with background image)
 - [ ] Build ProductGallery.tsx (client component with filtering)
 - [ ] Build ProductCard.tsx (server component)
 - [ ] Build ProductModal.tsx (using Radix UI Dialog)
+- [ ] Build `Footer.tsx` (server component) and add into layout
 - [ ] Add Radix UI components to src/components/ui/ (if using shadcn/ui)
 
 ### Phase 4: Styling & Responsiveness
 
-- [ ] Create src/styles/globals.css with CSS custom properties
-- [ ] Set up src/index.css with Tailwind directives
+- [ ] Create src/app/globals.css with CSS custom properties, with Tailwind directives
 - [ ] Implement responsive navigation (mobile hamburger menu)
 - [ ] Style product grid (1 col mobile, 2 sm, 3 lg, 4 xl)
 - [ ] Add hover effects and transitions
@@ -1322,10 +1148,14 @@ lsof -ti:3000 | xargs kill -9  # Kill process on port 3000
 
 ```
 virtual-furniture-portfolio-site/
-├── app/
-│   ├── layout.tsx           # Root layout (metadata, global styles)
-│   └── page.tsx             # Home page (main content + footer)
+
 ├── src/
+|   ├── app/
+│   |    ├── about
+|   │    |   └── page.tsx         #About us page
+│   |    └── layout.tsx           # Root layout (metadata, global styles, header + footer)
+│   |    └── page.tsx             # Home page (main content)
+│   │    └── globals.css          # CSS custom properties
 │   ├── components/
 │   │   ├── ui/              # Radix UI primitives (shadcn/ui)
 │   │   ├── Navigation.tsx   # CLIENT: Mobile menu state
@@ -1333,9 +1163,7 @@ virtual-furniture-portfolio-site/
 │   │   ├── ProductGallery.tsx  # CLIENT: Filtering + modal state
 │   │   ├── ProductCard.tsx  # SERVER: Product display
 │   │   └── ProductModal.tsx # Radix Dialog component
-│   ├── styles/
-│   │   └── globals.css      # CSS custom properties
-│   └── index.css            # Tailwind imports
+│   │   └── AboutUs.tsx      # About Us component
 ├── public/                  # Static assets (if any)
 ├── next.config.ts           # Next.js configuration
 ├── tailwind.config.ts       # Tailwind configuration
@@ -1460,3 +1288,47 @@ Generated from Unsplash: <https://images.unsplash.com/photo-1760981348070-ffa100
 **Last Updated**: 2025-11-06
 **Project**: Virtual Furniture Portfolio Website
 **Stack**: Next.js 15 + TypeScript + Tailwind CSS v4
+
+## Project Overview
+- **Framework**: Next.js 15 (App Router), React 18, TypeScript, Tailwind CSS v4
+- **Purpose**: Virtual furniture portfolio site with a filterable product gallery, product modals, and a modern, responsive UI.
+- **Key UI**: Uses shadcn/ui (Radix UI primitives) and Lucide icons.
+
+## Architecture & Patterns
+- **App Router**: All routing and layouts are in `src/app/` (e.g., `layout.tsx`, `page.tsx`).
+- **Components**: Main React components in `src/components/`.
+  - `ui/`: Reusable UI primitives (from shadcn/ui, Radix UI)
+  - `Hero.tsx`: Static hero section (server component)
+  - `Navigation.tsx`: Client navigation bar ("use client")
+  - `ProductGallery.tsx`: Client component, manages product list/filtering
+  - `ProductModal.tsx`: Client dialog/modal for product details
+- **Products**: Defined in a local array in `ProductGallery.tsx`. To add products, update this array.
+- **Styling**: Tailwind CSS v4 with custom color palette and CSS variables. Global styles in `src/styles/globals.css`.
+
+## Developer Workflows
+- **Install**: `npm install`
+- **Dev Server**: `npm run dev` (http://localhost:3000)
+- **Build**: `npm run build`
+- **Lint**: `npm run lint`
+- **Production**: `npm run start`
+- **Deployment**: Vercel (auto-detects Next.js)
+
+## Conventions & Tips
+- **Component Types**: Server components by default; use `"use client"` for interactivity/state.
+- **UI Primitives**: Prefer using/adding to `src/components/ui/` for new UI elements.
+- **No API/Backend**: All data is static/local; no backend or API calls.
+- **Images**: Use Unsplash links for product images.
+- **Design System**: Follow the warm, cozy palette in README.md.
+
+## Examples
+- **Add Product**: Edit `products` array in `ProductGallery.tsx`.
+- **Add UI**: Place new primitives in `src/components/ui/`.
+- **Update Navigation**: Edit `Navigation.tsx` (client component).
+
+## References
+- See `README.md` for full setup, design, and deployment details.
+- See `src/components/` for all main UI logic.
+
+---
+
+For any unclear or missing conventions, consult the README or ask for clarification.
